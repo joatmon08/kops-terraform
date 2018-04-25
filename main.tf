@@ -15,7 +15,10 @@ resource "aws_iam_group_policy" "kops" {
         "ec2:*",
         "route53:*",
         "s3:*",
-        "iam:*"
+        "iam:*",
+        "elasticloadbalancing:*",
+        "autoscaling:*",
+        "kms:*"
       ],
       "Effect": "Allow",
       "Resource": "*"
@@ -26,11 +29,11 @@ EOF
 }
 
 resource "aws_iam_group" "kops" {
-  name = "kops_group"
+  name = "kops"
 }
 
 resource "aws_iam_user" "kops" {
-  name = "kops_user"
+  name = "kops"
 }
 
 resource "aws_iam_access_key" "kops" {
