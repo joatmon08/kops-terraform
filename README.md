@@ -17,6 +17,10 @@
    ```
    export AWS_ACCESS_KEY_ID=<access key>
    export AWS_SECRET_ACCESS_KEY=<secret key>
-   kops create cluster --name=joatmon08.k8s.local --state=s3://joatmon08 --zones=us-west-2a --node-count=2 --node-size=t2.micro --master-size=t2.micro
+   export KOPS_STATE_STORE=s3://joatmon08
+   kops create cluster \
+    --name=joatmon08.k8s.local --zones=us-west-2a \
+    --node-count=2 --node-size=t2.micro \
+    --master-size=t2.micro --kubernetes-version 1.9.4
    kops update cluster joatmon08.k8s.local --yes
    ```

@@ -50,3 +50,28 @@ resource "aws_iam_group_membership" "kops" {
 
   group = "${aws_iam_group.kops.name}"
 }
+
+resource "aws_s3_bucket" "kops" {
+  bucket = "${var.bucket_name}"
+  policy = <<POLICY
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "${var.bucket_name}policy",
+      "Effect": "Allow",
+      "Principal": {
+          "AWS": "arn:aws:iam::${var.account_id}:user/${aws_iam_user.kops.name}"
+      },
+      "Action": [
+          "s3:*"
+      ],
+      "Resource": [
+          "arn:aws:s3:::${var.bucket_name}/*"
+      ]
+    }
+  ]
+}
+POLICY
+}
+
