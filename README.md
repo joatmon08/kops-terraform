@@ -9,18 +9,20 @@
 1. `terraform init`
 1. `terraform plan -var-file=your.tfvars`
 1. `terraform apply -var-file=your.tfvars`
+    The output of the apply will have an access key and the GPG encrypted
+    secret key.
 1. Get the Access & Secret Key. To decrypt the secret key:
    ```
-   cat secret | base64 -D | gpg -d --
+   echo <secret> | base64 -D | gpg -d --
    ```
 1. Create the cluster using kops
    ```
    export AWS_ACCESS_KEY_ID=<access key>
    export AWS_SECRET_ACCESS_KEY=<secret key>
-   export KOPS_STATE_STORE=s3://joatmon08
+   export KOPS_STATE_STORE=s3://<your s3 bucket>
    kops create cluster \
-    --name=joatmon08.k8s.local --zones=us-west-2a \
+    --name=<your cluster name>.k8s.local --zones=us-west-2a \
     --node-count=2 --node-size=t2.micro \
     --master-size=t2.micro --kubernetes-version 1.9.4
-   kops update cluster joatmon08.k8s.local --yes
+   kops update cluster <your cluster name>.k8s.local --yes
    ```
